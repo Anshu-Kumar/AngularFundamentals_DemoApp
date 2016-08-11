@@ -1,0 +1,196 @@
+//MyLearning Notes from PS course.
+
+AngularJS-- MV* framework - opinionated software?
+Manipulate DOM inside directive.
+M- Model data and state
+V - render to the user  information input u see.
+** - Controller /Presenter/View Model
+
+Open source library -- community contributors.
+Comprehensive - handle ajax communication. Partial template view and update data using user interaction  two way binding
+Routing - change view one view to another useful in SPA.
+Testability - Primary consideration. Support unit test(karma) and end to end test(Protractor)
+Extend HTML- directives
+<input id =""  focus/> like in HTL5
+<multiStateButton id=""/>
+Forward thinking -  Web components(encapsulate html, js, css), Object.observer
+
+Architecture:
+
+Two way binding : insert value in form field instantly updated to model.
+Dirty Checking: No getter setter. Check data change on js object.
+Dependency injection: Build on DI in pieces to testable.
+
+AngularJS Components:
+Controller - central and Essential player hold logic and state.
+View /Directives - Part of view
+Services - Real code business logic
+
+Hello world.
+
+Controller & MarkUp:
+https://github.com/joeeames/AngularFundamentalsFiles
+
+https://Code.angularjs.org  Url to Download AngularJS file
+
+Http://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.js  download from CDN(Content delivery network).
+
+Controller & Scope :  Modules are basic building block of angular. Everything exists inside module. [] mean does not depend on
+Other module.
+**Small application should not use multiple modules.
+Node server - Express web server.  npm install express@4.13.0 body-parser@1.13.1
+IIS -
+
+Controller is primarily responsible for creating scope and scope interact with view through two way communication.
+Event on view can call methods on scope or say bind to scope function.
+Scope is use to expose model to view but not a model( i.e. data put into scope).
+View made modification to model through scope.
+
+Demo -- EventDetails.Html
+Eventcontroller.js
+{{..}} expression that angular should evaluate. Expression support just a subset of JavaScript syntax. Can create a n array inside in a expression.
+
+ng-src -- directive to bind an Image to UI.
+Directive gets HTML new functionality.
+Ng-click - register a click event on DOM object.
+Directive could be used as - Tag (<ng-form/>), attribute, class
+Event Directives:  ngclick. ngdblclick, ngchange( this require ng-model attribute should be present.)
+Ng-bind
+Ng-html : sanitizer.
+Ng-hide ng - show
+Cloak directive
+Ng-style.
+AngularJS to support older IE support : polyfill JSON.stringify and avoid custom ng tags.
+Filters: Modify output, Formatting, Sorted Dataset, Filtering dataset.
+{{ expression | filter }}
+OrderBy filter - adding - do descending order
+<select ng-model="query.name" -- To select data based on value.
+Write Custom filter:  module.filter()
+Two Way Binding: Allow to use typical form control and keep the model up to date automatically. Capability because of ng-Model directive. Work with input, select, textarea.
+http://localhost:8000/EventDetails.html
+
+Ng-cloak .. Implementation ??
+
+Validation:  required attribute
+Ng-pattern="" reg expression.
+ng-disabled="newEventForm.$invalid"
+**Pristine is the opposite of dirty property.
+
+---------------------------------------------------------------------------------------------------------
+Angular Services:
+Service: overloaded term web service or object encapsulate to do some business logic.
+In AngularJS service is refer to Objects.
+Built-in and Custom Services
+Reusable-- break into smaller component easy to maintain.
+DI- Angular works as fully feature DI container.
+
+Services Registered to angular then injected into controller or into other service.
+
+$scope parameter is actually an angular service.
+DI in angular - Define dependencies in controller parameter and get injected.
+Own service- do not use $.
+Register Services to angular.. Using App.factory
+
+Build-in services:
+$http-  Service for making AJAX call.
+$log - Service for logging.
+$resource - Do the AJAX call based on Rest architecture.  Need add Module ngResource and angular-resource.js .
+  .get Action
+To Save resource object:  .save Action
+
+$achorScroll -  to scroll to the element by using #id in URL and button.
+
+$cacheFactory -   using factory on module and give capacity. LRUcaching..?
+$compile - used heavily internally by angular when a page loaded. We use inside directives.
+$parse - similar to compile service use heavily. Evaluate a expression and turn into function.
+$locale
+$filter
+$rootscope - per one app
+
+{{ }} can be modify use $interopolate
+
+--------------------------------------------------------------------------------------------------------------------
+Js came out widely in 1995.
+Angular Routing:
+Important for single page application. Key part of SPA.
+Problem to include all js files.
+Website: Gmail is big SPA. Changing on fly .No URL change. Routing to other resources.
+
+Add SP- i.e. index.html
+ng-view -- Place where all templates(html that become our views) get loaded.
+
+Template(combine with model just html) vs view(final what user see)
+# in the url. For linking between pages. For HTMl5 compatible no need to use #.
+
+Template cache stores the page for back and forth page navigation.
+
+$routeProvider - service to create route.
+otherwise function to define default route.
+
+$routeParams -- service to get value form URL/ parameter passed to route.
+Reload page using route service not the app.
+
+HTML5 enabled routing URL i.e. without #
+$locationProvider.html5Mode(true);   -- 404 error Need to change server side configuration so that point to index.html
+IIS - URL rewrite rule. Rewrite all urls to index.html
+
+$location Service:  navigate to a new view from code using $location.url('newUrl');
+Get query string using $location.Search();
+
+To do:  Convert EditEvent.html standalone page to a template and add a route and link to the new route.
+Use Template property of route for adding a simple About page.
+Add resolve property to the /events so that page doesn't load until the events have been loaded from disk.
+
+--------------------------------------------------------------------------------------------------------------------------
+
+Angular Custom Directives:
+HTML was created to show static data.
+Web components: w3c specifications allow to add to create own markup. Like fancyButton
+Not supported in many browser.
+Angular give cross browser web component like functionality. i.e. Directives.
+Directives: Do create custom directives , custom events and observe and react to change.
+Camel case HTML example == myEvent on js file refer to HTML tag  my-event.
+Directive restrict possible values E, A C and M(comment)
+
+To write Domain specific language.
+ use templateUrl.  <event-thumbnail/>
+Template and TemplateUrl are used to define the html used by directives.
+Isolate scope - To create scope for each directives.  Use & prefix to bind a local scope property to a function in parent scope.
+
+Directives to handle Events:    in link function use element.on('eventname like keydown')
+date- keys directive
+
+Observing and responding to changes:    In link function use attr.$observe('attrname')
+Gravatar.js
+
+directives properties :
+controller :  Using controller within directives:
+require:   to use controller from other directives.
+priority : 1
+terminal : true;  -- prevent lower priority directive from executing
+transclusion:  to Avoid losing content nested inside a directive.
+
+Compile function in directive-- use to manipulate DOM.
+No scope is available only doing DOM things. Runs once effect all instances.
+Link function run for each instances and do the effects.
+
+JQuery plugins with AngularJS directive.. ??
+
+ToDo: Implement focus directive.  Enter key press save directive.
+
+----------------------------------------------------------------------------------------------------------------------------
+Testing Angular:
+ karma Test runner tool to use - Jasmine(by default), Qunit, Mocha
+Unit testing
+E3E testing: exercise app like in production.
+
+Karma with Jasmine:
+independent of angularJS,can test other JS.
+npm  install karma karma-chrome-launcher karma-jasmine -core
+npm install karma-cli -g  - command line interface.
+
+Create config file using   karma init  i.e. Karma.config.js
+Run karma from cmd : karm start "path of karma config file i.e. test/karma.config.js"
+
+WebStorm:
+Edit configuration. Add configuration.
